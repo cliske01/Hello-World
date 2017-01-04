@@ -13,32 +13,34 @@ void structNew(stack *s) {
 	}
 	
 void structRem(stack *s) {
-	if (s->elems==NULL) {
-    printf("Stack is empty!\n");
-    return;
-  }
+	if (s->elems==NULL) printf("Stack is empty!\n");
 	free(s->elems);
 	s->elems=NULL;
 	}
 	
 bool isEmpty(stack *s) {
-	if (s->elems==NULL) return true;
-	else return false;
+	if (s->elems==NULL) {
+		return true;
+	}
+	else {
+		return false;
+	}
 	}
 
 void structPush(stack *s, const char *x) {
 	if (s->loglength==s->alloclength) {
-		printf("Resizing \n");
+		/*printf("Resizing \n");*/
 		s->alloclength*=2;
-		s=realloc(s->elems,(s->alloclength)*sizeof(char *));
-		assert(s!=NULL);
+		s->elems=realloc(s->elems,(s->alloclength)*sizeof(char *));
+		assert(s->elems!=NULL);
 		}
-	strcpy((s->elems)+(s->loglength*sizeof(char *)), x);
-	s->loglength++;
+	strcpy((s->elems)+((s->loglength+1)*sizeof(char *)), x);
+	(s->loglength)++;
 	}
 	
 char *structPop(stack *s) {
-	if (isEmpty(s)==true) {
+	bool x=isEmpty(s);
+	if (x==true) {
 		printf("Stack Overflow!");
 		return NULL;
 		}
@@ -48,5 +50,5 @@ char *structPop(stack *s) {
 		return NULL;
 		}
 	s->loglength--;
-	return s->elems+(s->loglength+1);
+	return (s->elems+((s->loglength+1)*sizeof(char *)));
 	}
